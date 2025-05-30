@@ -9,6 +9,9 @@
    <img src="https://img.shields.io/badge/dynamic/json?color=%23e85b46&label=Patreon&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F4507807&style=flat-square"/>
 </p>
 
+##
+  Please check Vidao main repository readme for compile guide
+  
 ## 🌟 Version 6.0.0
 
 Video2X 6.0.0 highlights:
