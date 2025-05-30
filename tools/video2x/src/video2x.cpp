@@ -425,7 +425,7 @@ int main(int argc, char** argv) {
 
 
     video2x::logger()->info("vk_device_list: {}", arguments.vk_device_list);
-    if (arguments.vk_device_list.empty() || std::count(arguments.vk_device_list.begin(), arguments.vk_device_list.end(), ',') == 0) {
+    if (arguments.vk_device_list.empty()) {
         video2x::logger()->info("single_device_process");
         return single_device_process(arguments, proc_cfg, enc_cfg, logger_sink);
     }
