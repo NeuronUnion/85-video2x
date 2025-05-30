@@ -10,8 +10,9 @@
 </p>
 
 ##
-  Please check Vidao main repository readme for compile guide
-  
+  Compile guide:
+     Please check miner setup guide in Vidao main repository readme
+
 ## 🌟 Version 6.0.0
 
 Video2X 6.0.0 highlights:
