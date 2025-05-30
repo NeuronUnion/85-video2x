@@ -103,19 +103,19 @@ debian:
 [unix]
 [group('build')]
 ubuntu2404:
-    # apt-get update
-    # DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    #     build-essential cmake pkg-config ninja-build \
-    #     libavcodec-dev \
-    #     libavdevice-dev \
-    #     libavfilter-dev \
-    #     libavformat-dev \
-    #     libavutil-dev \
-    #     libswscale-dev \
-    #     libvulkan-dev \
-    #     glslang-tools \
-    #     libomp-dev \
-    #     libboost-program-options-dev
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        build-essential cmake pkg-config ninja-build \
+        libavcodec-dev \
+        libavdevice-dev \
+        libavfilter-dev \
+        libavformat-dev \
+        libavutil-dev \
+        libswscale-dev \
+        libvulkan-dev \
+        glslang-tools \
+        libomp-dev \
+        libboost-program-options-dev
     cmake -G '{{generator}}' -B build -S . \
         -DVIDEO2X_USE_EXTERNAL_NCNN=OFF \
         -DVIDEO2X_USE_EXTERNAL_SPDLOG=OFF \

@@ -75,3 +75,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+
+video2x-linux-ubuntu-amd64
+video2x-linux-ubuntu-amd64.deb

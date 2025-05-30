@@ -11,7 +11,23 @@
 
 ##
   Compile guide:
-     Please check miner setup guide in Vidao main repository readme
+     - Please check miner setup guide in Vidao main repository readme
+     - Comment following download commands of ubuntu2404 target in .justfile from second build to speedup build process
+       ubuntu2404:
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+              build-essential cmake pkg-config ninja-build \
+              libavcodec-dev \
+              libavdevice-dev \
+              libavfilter-dev \
+              libavformat-dev \
+              libavutil-dev \
+              libswscale-dev \
+              libvulkan-dev \
+              glslang-tools \
+              libomp-dev \
+              libboost-program-options-dev
+
 
 ## 🌟 Version 6.0.0
 
