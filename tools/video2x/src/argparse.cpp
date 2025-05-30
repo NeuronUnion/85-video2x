@@ -86,6 +86,10 @@ int parse_args(
                 ->default_value(STR("none"), "none"), "Hardware acceleration method (decoding)")
             ("device,d", po::value<uint32_t>(&arguments.vk_device_index)->default_value(0),
                 "Vulkan device index (GPU ID)")
+            ("device-list,D", PO_STR_VALUE<video2x::fsutils::StringType>(),
+                "Vulkan device list (Comma separated list of GPU IDs)")
+            ("filter-options,f", PO_STR_VALUE<video2x::fsutils::StringType>(),
+                "FFmpeg filter options")
             ("benchmark,b", po::bool_switch(&arguments.benchmark),
                 "Discard processed frames and calculate average FPS; "
                 "useful for detecting encoder bottlenecks")
@@ -251,6 +255,7 @@ int parse_args(
         video2x::logger_manager::LoggerManager::instance().hook_ffmpeg_logging();
 
         // Print program banner
+        video2x::logger()->info("Video2X customized by bluelake");
         video2x::logger()->info("Video2X version {}", LIBVIDEO2X_VERSION_STRING);
         // video2x::logger()->info("Copyright (C) 2018-2024 K4YT3X and contributors.");
         // video2x::logger()->info("Licensed under GNU AGPL version 3.");
@@ -271,6 +276,22 @@ int parse_args(
         } else if (!arguments.benchmark) {
             video2x::logger()->critical("Output file path is required.");
             return -1;
+        }
+
+        if (vm.count("device-list")) {
+            arguments.vk_device_list =
+                vm["device-list"].as<video2x::fsutils::StringType>();
+            video2x::logger()->info("Using device list: {}", arguments.vk_device_list);
+        } else {
+            video2x::logger()->info("device-list not provided");
+        }
+
+        if (vm.count("filter-options")) {
+            arguments.filter_options =
+                vm["filter-options"].as<video2x::fsutils::StringType>();
+            video2x::logger()->info("Using filter options: {}", arguments.filter_options);
+        } else {
+            video2x::logger()->info("filter-options not provided");
         }
 
         // Parse processor type

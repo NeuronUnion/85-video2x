@@ -86,6 +86,7 @@ add_library(libvideo2x
     src/interpolator_rife.cpp
     src/libplacebo.cpp
     src/libvideo2x.cpp
+    src/libvideo2x_multi_device.cpp
     src/logger_manager.cpp
     src/processor_factory.cpp
 )
@@ -144,7 +145,7 @@ else()
     pkg_check_modules(libavformat REQUIRED libavformat)
     pkg_check_modules(libavutil REQUIRED libavutil)
     pkg_check_modules(libswscale REQUIRED libswscale)
-
+    message(STATUS "libavfilter_LIBRARIES: ${libavfilter_LIBRARIES}")
     # Apply include directories and libraries directly to the target
     target_include_directories(libvideo2x SYSTEM PRIVATE
         ${libavcodec_INCLUDE_DIRS}
@@ -240,7 +241,7 @@ else()
         option(WITH_LAYER_squeeze "" OFF)
         option(WITH_LAYER_expanddims "" OFF)
         option(WITH_LAYER_normalize "" OFF)
-        option(WITH_LAYER_permute "" OFF)
+        option(WITH_LAYER_permute "" ON)
         option(WITH_LAYER_priorbox "" OFF)
         option(WITH_LAYER_detectionoutput "" OFF)
         option(WITH_LAYER_interp "" ON)
@@ -248,7 +249,7 @@ else()
         option(WITH_LAYER_shufflechannel "" OFF)
         option(WITH_LAYER_instancenorm "" OFF)
         option(WITH_LAYER_clip "" ON)
-        option(WITH_LAYER_reorg "" OFF)
+        option(WITH_LAYER_reorg "" ON)
         option(WITH_LAYER_yolodetectionoutput "" OFF)
         option(WITH_LAYER_quantize "" OFF)
         option(WITH_LAYER_dequantize "" OFF)

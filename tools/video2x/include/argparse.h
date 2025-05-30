@@ -1,7 +1,9 @@
 #pragma once
 
 #include <libvideo2x/libvideo2x.h>
+#include <libvideo2x/libvideo2x_multi_device.h>
 #include <filesystem>
+#include <string>
 
 // Structure to hold parsed arguments
 struct Arguments {
@@ -9,8 +11,10 @@ struct Arguments {
     std::filesystem::path in_fname;
     std::filesystem::path out_fname;
     uint32_t vk_device_index = 0;
+    std::string vk_device_list;
     AVHWDeviceType hw_device_type = AV_HWDEVICE_TYPE_NONE;
     bool benchmark = false;
+    std::string filter_options;
 };
 
 [[nodiscard]] int parse_args(

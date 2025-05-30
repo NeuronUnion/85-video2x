@@ -274,6 +274,36 @@ int VideoProcessor::process_frames(
         av_packet_unref(packet.get());
     }
 
+    avcodec_send_packet(dec_ctx, nullptr);
+    while (avcodec_receive_frame(dec_ctx, frame.get()) == 0) {
+        // Calculate this frame's presentation timestamp (PTS)
+        video2x::logger()->info("BL: Processing remaining frame {}", frame_idx_.load());
+        frame->pts =
+            av_rescale_q(frame_idx_, av_inv_q(enc_ctx->framerate), enc_ctx->time_base);
+        AVFrame* proc_frame = nullptr;
+        switch (processor->get_processing_mode()) {
+            case processors::ProcessingMode::Filter: {
+                ret = process_filtering(processor, encoder, frame.get(), proc_frame);
+                break;
+            }
+            case processors::ProcessingMode::Interpolate: {
+                ret = process_interpolation(
+                    processor, encoder, prev_frame, frame.get(), proc_frame
+                );
+                break;
+            }
+            default:
+                logger()->critical("Unknown processing mode");
+                return -1;
+        }
+        if (ret < 0 && ret != AVERROR(EAGAIN)) {
+            return ret;
+        }
+        av_frame_unref(frame.get());
+        frame_idx_.fetch_add(1);
+        logger()->debug("Processed frame {}/{}", frame_idx_.load(), total_frames_.load());
+    }
+
     // Flush the processor
     std::vector<AVFrame*> raw_flushed_frames;
     ret = processor->flush(raw_flushed_frames);

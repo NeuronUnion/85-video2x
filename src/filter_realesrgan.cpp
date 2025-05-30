@@ -69,19 +69,21 @@ int FilterRealesrgan::init(AVCodecContext* dec_ctx, AVCodecContext* enc_ctx, AVB
     }
 
     // Create a new Real-ESRGAN instance
+    logger()->info("BL: Creating Real-ESRGAN instance");
     realesrgan_ = new RealESRGAN(gpuid_, tta_mode_);
-
+    logger()->info("BL: Real-ESRGAN instance created");
     // Store the time bases
     in_time_base_ = dec_ctx->time_base;
     out_time_base_ = enc_ctx->time_base;
     out_pix_fmt_ = enc_ctx->pix_fmt;
 
     // Load the model
+    logger()->info("BL: Loading Real-ESRGAN model");
     if (realesrgan_->load(model_param_full_path.value(), model_bin_full_path.value()) != 0) {
         logger()->error("Failed to load Real-ESRGAN model");
         return -1;
     }
-
+    logger()->info("BL: Real-ESRGAN model loaded");
     // Set Real-ESRGAN parameters
     realesrgan_->scale = scaling_factor_;
     realesrgan_->prepadding = 10;
@@ -129,6 +131,8 @@ int FilterRealesrgan::filter(AVFrame* in_frame, AVFrame** out_frame) {
     (*out_frame)->pts = av_rescale_q(in_frame->pts, in_time_base_, out_time_base_);
 
     // Return the processed frame to the caller
+    //logger()->info("BL: FilterRealesrgan::filter returning");
+    //printf("BL: FilterRealesrgan::filter returning *out_frame=%p\n", *out_frame);
     return ret;
 }
 
